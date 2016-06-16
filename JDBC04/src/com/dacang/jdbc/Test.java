@@ -10,21 +10,21 @@ import java.util.List;
 public class Test {
 
 	/**
-	 * @·½·¨ÃèÊö TODO   Í¨¹ıid²éÑ¯
+	 * @æ–¹æ³•æè¿° TODO   é€šè¿‡idæŸ¥è¯¢
 	 * @param id  
-	 * @return p      p¶ÔÏó
+	 * @return p      på¯¹è±¡
 	 *  
 	 */
 	public static Person findById(int id) {
 		Person p = null;
-		//Í¨¹ı¹¤¾ßÀà»ñÈ¡Êı¾İ¿âÁ¬½Ó
+		//é€šè¿‡å·¥å…·ç±»è·å–æ•°æ®åº“è¿æ¥
 		Connection conn = DBUtils.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select name,age,description from person where id=?";
 		try {
 			ps = conn.prepareStatement(sql);
-			//ÉèÖÃÕ¼Î»·û¶ÔÓ¦µÄÖµ
+			//è®¾ç½®å ä½ç¬¦å¯¹åº”çš„å€¼
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -36,40 +36,44 @@ public class Test {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//Í¨¹ı¹¤¾ßÀà¹Ø±ÕÊı¾İ¿âÁ¬½Ó
+			//é€šè¿‡å·¥å…·ç±»å…³é—­æ•°æ®åº“è¿æ¥
 			DBUtils.close(rs, ps, conn);
 		}
 		return p;
 
 	}
 
-	private static void listPrint(List<Person> list) {
-		for (Object obj : list) {// ÔöÇ¿ µÄforÑ­»·
-			System.out.println(obj);
-		}
-	}
+	//	private  void listPrint(List<Person> list) {
+	//		for (Object obj : list) {// å¢å¼º çš„forå¾ªç¯
+	//			System.out.println(obj);
+	//		}
+	//	}
 
 	public static void main(String[] args) {
 		Person person = new Person();
 		person = findById(1);
-		System.out.println("²éÕÒµ¥Ìõ¼ÇÂ¼£º" + person);
+		System.out.println("æŸ¥æ‰¾å•æ¡è®°å½•ï¼š" + person);
 		List<Person> list = new ArrayList<Person>();
-		list = Quey();
-		listPrint(list);
+	        list = new Test().Quey();
+		for (int i = 0; i < list.size(); i++) {
+			Person person1 = list.get(i);
+			System.out.println("|id:" + person1.getId() + "\t" + "| name:" + person1.getName() + "\t" + "| age:"
+					+ person1.getAge() + "\t" + "| description:" + person1.getDescription());
+		}
 
 	}
 
 	public static List<Person> Quey() {
 		Person p = null;
 		List<Person> PersonList = new ArrayList<Person>();
-		//Í¨¹ı¹¤¾ßÀà»ñÈ¡Êı¾İ¿âÁ¬½Ó
+		//é€šè¿‡å·¥å…·ç±»è·å–æ•°æ®åº“è¿æ¥
 		Connection conn = DBUtils.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select * from person";
 		try {
 			ps = conn.prepareStatement(sql);
-			//ÉèÖÃÕ¼Î»·û¶ÔÓ¦µÄÖµ
+			//è®¾ç½®å ä½ç¬¦å¯¹åº”çš„å€¼
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("id");
@@ -82,7 +86,7 @@ public class Test {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//Í¨¹ı¹¤¾ßÀà¹Ø±ÕÊı¾İ¿âÁ¬½Ó
+			//é€šè¿‡å·¥å…·ç±»å…³é—­æ•°æ®åº“è¿æ¥
 			DBUtils.close(rs, ps, conn);
 		}
 		return PersonList;
